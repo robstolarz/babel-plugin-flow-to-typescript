@@ -41,6 +41,7 @@ import {
     numericLiteral,
     ObjectTypeAnnotation,
     ObjectTypeProperty,
+    tsParenthesizedType,
     stringLiteral,
     StringLiteralTypeAnnotation,
     tsAnyKeyword,
@@ -365,7 +366,8 @@ export function convertFlowType(path: NodePath<FlowType>): TSType {
         const returnType = tsTypeAnnotation(convertFlowType(nodePath.get('returnType')));
         const tsFT = tsFunctionType(null, returnType);
         tsFT.parameters = identifiers;
-        return tsFT;
+        const parens = tsParenthesizedType(tsFT);
+        return parens;
     }
 
     if (isNodePath(isTupleTypeAnnotation, path)) {
